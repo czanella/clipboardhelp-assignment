@@ -9,3 +9,13 @@ You've been asked to refactor the function `deterministicPartitionKey` in [`dpk.
 You will be graded on the exhaustiveness and quality of your unit tests, the depth of your refactor, and the level of insight into your thought process provided by the written explanation.
 
 ## Your Explanation Here
+
+* Started by moving the TRIVIAL_PARTITION_KEY and MAX_PARTITION_KEY_LENGTH constants outside `deterministicPartitionKey`, because constants should be placed at root level
+
+* Moved the hash logic into a separate function, `createHash`, to prevent code repetition and to make tests simpler
+
+* Most of the conditions have been reduced into the main logic at the beginning of the function, clarifying what should be the hierarchy of the data to be used to computate the key: input's `partitionKey` if provided; the stringified `input` otherwise; if no input is provided at all, then it defaults to `TRIVIAL_PARTITION_KEY`.
+
+* The rest of the function handles special input cases, each contained in a small, one-level if block
+
+* More simplification could be achieved but there's a special case in the original function that prevents this: if `partitionKey` is provided and it's a string, it should be used as it is, without stringification; but if the input is a string, it _should_ be stringified ('a' becomes '"a"')
