@@ -5,9 +5,9 @@ const MAX_PARTITION_KEY_LENGTH = 256;
 
 const createHash = data => crypto.createHash("sha3-512").update(data).digest("hex");
 
-exports.deterministicPartitionKey = (event) => {
-  let candidate = event
-    ? event.partitionKey || createHash(JSON.stringify(event))
+const deterministicPartitionKey = (event) => {
+  let candidate = event 
+    ? event.partitionKey || JSON.stringify(event)
     : TRIVIAL_PARTITION_KEY;
 
   if (typeof candidate !== "string") {
@@ -20,3 +20,6 @@ exports.deterministicPartitionKey = (event) => {
 
   return candidate;
 };
+
+exports.createHash = createHash;
+exports.deterministicPartitionKey = deterministicPartitionKey;
